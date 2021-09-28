@@ -1,6 +1,6 @@
 # Files-driver
 
-[![Code Coverage](https://codecov.io/gh/vinogradsoft/files-driver/branch/master/graph/badge.svg)](https://codecov.io/gh/vinogradsoft/files-driver)
+[![codecov](https://codecov.io/gh/vinogradsoft/files-driver/branch/master/graph/badge.svg?token=JOjnDI520s)](https://codecov.io/gh/vinogradsoft/files-driver)
 
 Драйвер локальной файловой системы для библиотеки [Scanner](https://github.com/vinogradsoft/scanner)
 
