@@ -100,12 +100,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vinogradsoft/scanner.git",
-                "reference": "9b521cea0494d04906f8e01bf3055ba2649d63bc"
+                "reference": "938c91610469773bf0b3da608606c18c1c8988a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vinogradsoft/scanner/zipball/9b521cea0494d04906f8e01bf3055ba2649d63bc",
-                "reference": "9b521cea0494d04906f8e01bf3055ba2649d63bc",
+                "url": "https://api.github.com/repos/vinogradsoft/scanner/zipball/938c91610469773bf0b3da608606c18c1c8988a5",
+                "reference": "938c91610469773bf0b3da608606c18c1c8988a5",
                 "shasum": ""
             },
             "require": {
@@ -138,7 +138,7 @@
                 "issues": "https://github.com/vinogradsoft/scanner/issues",
                 "source": "https://github.com/vinogradsoft/scanner/tree/1.0.0"
             },
-            "time": "2021-09-28T21:38:06+00:00"
+            "time": "2021-09-29T21:08:17+00:00"
         },
         {
             "name": "vinogradsoft/simple-files",
