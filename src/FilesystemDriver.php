@@ -2,15 +2,13 @@
 
 namespace Vinograd\FilesDriver;
 
+use Vinograd\IO\Filesystem;
 use Vinograd\Scanner\Driver;
-use Vinograd\Scanner\NodeFactory;
 use Vinograd\SimpleFiles\DefaultFilesystem;
 use Vinograd\SimpleFiles\FileFunctionalitiesContext;
 
 class FilesystemDriver implements Driver
 {
-    /**  @var NodeFactory */
-    protected $nodeFactory;
 
     /** @var DefaultFilesystem */
     protected $filesystem;
@@ -21,21 +19,17 @@ class FilesystemDriver implements Driver
     /** @var string */
     protected $next;
 
-    /**
-     * @param NodeFactory $factory
-     */
-    public function __construct(NodeFactory $factory)
+    public function __construct()
     {
-        $this->nodeFactory = $factory;
-        $this->filesystem = new DefaultFilesystem();
+        $this->filesystem = $this->getFilesystem();
     }
 
     /**
-     * @return NodeFactory
+     * @return Filesystem
      */
-    public function getNodeFactory(): NodeFactory
+    protected function getFilesystem(): Filesystem
     {
-        return $this->nodeFactory;
+        return new DefaultFilesystem();
     }
 
     /**
@@ -44,7 +38,7 @@ class FilesystemDriver implements Driver
      */
     public function parse($source): array
     {
-        return array_slice(scandir($source), 2);
+        return $this->filesystem->scanDirectory($source);
     }
 
     /**
@@ -71,7 +65,7 @@ class FilesystemDriver implements Driver
     public function isLeaf($found): bool
     {
         $this->next = $this->detect . $found;
-        return !is_dir($this->next);
+        return !$this->filesystem->isDirectory($this->next);
     }
 
     /**
