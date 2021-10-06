@@ -11,33 +11,16 @@ use Vinograd\SimpleFiles\FileFunctionalitiesContext;
 class FilesystemDriverTest extends IoEnvCase
 {
 
-    public function testConstruct()
-    {
-        $arrayDriver = new FilesystemDriver($nodeFactory = new DummyNodeFactory());
-        $reflection = new \ReflectionObject($arrayDriver);
-        $property = $reflection->getProperty('nodeFactory');
-        $property->setAccessible(true);
-        $objectValue = $property->getValue($arrayDriver);
-        self::assertSame($objectValue, $nodeFactory);
-    }
-
-    public function testGetNodeFactory()
-    {
-        $arrayDriver = new FilesystemDriver($nodeFactory = new DummyNodeFactory());
-        $factory = $arrayDriver->getNodeFactory();
-        self::assertSame($factory, $nodeFactory);
-    }
-
     public function testIsLeaf()
     {
-        $arrayDriver = new FilesystemDriver(new DummyNodeFactory());
+        $arrayDriver = new FilesystemDriver();
         self::assertTrue($arrayDriver->isLeaf(__FILE__));
         self::assertFalse($arrayDriver->isLeaf(__DIR__));
     }
 
     public function testIsLeafWithSnap()
     {
-        $arrayDriver = new FilesystemDriver(new DummyNodeFactory());
+        $arrayDriver = new FilesystemDriver();
         $arrayDriver->isLeaf(__DIR__);
         $reflection = new \ReflectionObject($arrayDriver);
         $property = $reflection->getProperty('next');
@@ -48,14 +31,14 @@ class FilesystemDriverTest extends IoEnvCase
 
     public function testNormalise()
     {
-        $arrayDriver = new FilesystemDriver(new DummyNodeFactory());
+        $arrayDriver = new FilesystemDriver();
         $result = $arrayDriver->normalise(__DIR__ . '/');
         self::assertEquals(__DIR__, $result);
     }
 
     public function testGetDataFotFilter()
     {
-        $arrayDriver = new FilesystemDriver(new DummyNodeFactory());
+        $arrayDriver = new FilesystemDriver();
         $arrayDriver->isLeaf(__FILE__);
         self::assertEquals($arrayDriver->getDataForFilter(), __FILE__);
         $arrayDriver->isLeaf(__DIR__);
@@ -64,7 +47,7 @@ class FilesystemDriverTest extends IoEnvCase
 
     public function testParse()
     {
-        $arrayDriver = new FilesystemDriver(new DummyNodeFactory());
+        $arrayDriver = new FilesystemDriver();
         $this->createFilesystem([
             'directories' => [
                 $this->outPath . '/childL',
@@ -87,7 +70,7 @@ class FilesystemDriverTest extends IoEnvCase
 
     public function testBeforeSearch()
     {
-        $driver = new FilesystemDriver(new DummyNodeFactory());
+        $driver = new FilesystemDriver();
         $driver->beforeSearch();
         $support = FileFunctionalitiesContext::getGroupFunctionalitySupport('group1');
         $fs1 = $support->getFilesystem()->extractFilesystem();
@@ -96,7 +79,7 @@ class FilesystemDriverTest extends IoEnvCase
 
     public function testSetDetect()
     {
-        $driver = new FilesystemDriver(new DummyNodeFactory());
+        $driver = new FilesystemDriver();
         $driver->setDetect($this->outPath);
         $reflection = new \ReflectionObject($driver);
         $property = $reflection->getProperty('detect');
@@ -108,7 +91,7 @@ class FilesystemDriverTest extends IoEnvCase
     public function testNext()
     {
         $this->createFile($file = $this->outPath . '/fileTest.txt');
-        $driver = new FilesystemDriver(new DummyNodeFactory());
+        $driver = new FilesystemDriver();
         $driver->setDetect($this->outPath);
         $driver->isLeaf('fileTest.txt');
         $result = $driver->next();

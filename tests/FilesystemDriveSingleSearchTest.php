@@ -30,7 +30,7 @@ class FilesystemDriveSingleSearchTest extends StrategyCase
         $this->visitor = new TestCaseProviderVisitor($this);
         $this->strategy = new SingleStrategy();
         $this->factory = new DummyNodeFactory();
-        $this->driver = new FilesystemDriver($this->factory);
+        $this->driver = new FilesystemDriver();
         $this->createFilesystem([
             'directories' => [
                 $this->outPath . '/childL',
@@ -62,6 +62,7 @@ class FilesystemDriveSingleSearchTest extends StrategyCase
         $scanner->setStrategy($this->strategy);
         $scanner->setVisitor($this->visitor);
         $scanner->setDriver($this->driver);
+        $scanner->setNodeFactory($this->factory);
 
         $scanner->search($this->outPath.'/childL');
 
