@@ -1,6 +1,6 @@
 {
   "name": "vinogradsoft/files-driver",
-  "description": "Драйвер для работы с локальной файловой системой",
+  "description": "Driver for working with local file system",
   "license": "MIT",
   "authors": [
     {
@@ -8,13 +8,13 @@
       "email": "cmk.cmyk@mail.ru"
     }
   ],
-  "version": "1.0.0",
+  "version": "2.0.0",
   "minimum-stability": "stable",
   "require": {
-    "php": ">=7.2",
-    "vinogradsoft/scanner": "^1.0.0",
-    "vinogradsoft/io-contract": "^1.0.0",
-    "vinogradsoft/simple-files": "^1.0.0"
+    "php": ">=8.0",
+    "vinogradsoft/scanner": "^1.0",
+    "vinogradsoft/io-contract": "^1.0",
+    "vinogradsoft/simple-files": "^2.0"
   },
   "autoload": {
     "psr-4": {
@@ -29,7 +29,7 @@
     }
   },
   "require-dev": {
-    "phpunit/phpunit": "8.5.x-dev",
+    "phpunit/phpunit": "^9.6",
     "overtrue/phplint": "^2.0"
   },
   "repositories": [
