@@ -11,14 +11,9 @@ use Vinograd\SimpleFiles\FileFunctionalitiesContext;
 class FilesystemDriver implements Driver
 {
 
-    /** @var DefaultFilesystem */
-    protected $filesystem;
-
-    /** @var string */
-    protected $detect;
-
-    /** @var string */
-    protected $next;
+    protected Filesystem $filesystem;
+    protected string|null $detect =null;
+    protected string $next;
 
     public function __construct()
     {
