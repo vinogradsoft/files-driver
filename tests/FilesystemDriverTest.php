@@ -3,11 +3,9 @@ declare(strict_types=1);
 
 namespace Test;
 
-use Test\Cases\Dummy\DummyNodeFactory;
 use Test\Cases\IoEnvCase;
 use Vinograd\FilesDriver\FilesystemDriver;
-use Vinograd\SimpleFiles\DefaultFilesystem;
-use Vinograd\SimpleFiles\FileFunctionalitiesContext;
+use Vinograd\IO\Exception\IOException;
 
 class FilesystemDriverTest extends IoEnvCase
 {
@@ -30,10 +28,10 @@ class FilesystemDriverTest extends IoEnvCase
         self::assertEquals($objectValue, __DIR__);
     }
 
-    public function testNormalise()
+    public function testNormalize()
     {
         $arrayDriver = new FilesystemDriver();
-        $result = $arrayDriver->normalise(__DIR__ . '/');
+        $result = $arrayDriver->normalize(__DIR__ . '/');
         self::assertEquals(__DIR__, $result);
     }
 
@@ -69,13 +67,12 @@ class FilesystemDriverTest extends IoEnvCase
         self::assertEquals($control, $result);
     }
 
-    public function testBeforeSearch()
+    public function testParseWithBadPath()
     {
-        $driver = new FilesystemDriver();
-        $driver->beforeSearch();
-        $support = FileFunctionalitiesContext::getGroupFunctionalitySupport('group1');
-        $fs1 = $support->getFilesystem()->extractFilesystem();
-        self::assertInstanceOf(DefaultFilesystem::class, $fs1);
+        $this->expectException(IOException::class);
+        $arrayDriver = new FilesystemDriver();
+
+        $arrayDriver->parse('bad/path');
     }
 
     public function testSetDetect()
@@ -98,4 +95,5 @@ class FilesystemDriverTest extends IoEnvCase
         $result = $driver->next();
         self::assertEquals($this->outPath . '/fileTest.txt', $result);
     }
+
 }

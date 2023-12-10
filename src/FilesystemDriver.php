@@ -3,30 +3,14 @@ declare(strict_types=1);
 
 namespace Vinograd\FilesDriver;
 
-use Vinograd\IO\Filesystem;
+use Vinograd\IO\Exception\IOException;
 use Vinograd\Scanner\Driver;
-use Vinograd\SimpleFiles\DefaultFilesystem;
-use Vinograd\SimpleFiles\FileFunctionalitiesContext;
 
 class FilesystemDriver implements Driver
 {
 
-    protected Filesystem $filesystem;
-    protected string|null $detect =null;
+    protected string|null $detect = null;
     protected string $next;
-
-    public function __construct()
-    {
-        $this->filesystem = $this->getFilesystem();
-    }
-
-    /**
-     * @return Filesystem
-     */
-    protected function getFilesystem(): Filesystem
-    {
-        return new DefaultFilesystem();
-    }
 
     /**
      * @param string $source
@@ -34,14 +18,18 @@ class FilesystemDriver implements Driver
      */
     public function parse($source): array
     {
-        return $this->filesystem->scanDirectory($source);
+        $result = @scandir($source);
+        if (is_bool($result)) {
+            throw new IOException(sprintf('Invalid path: %s', $source));
+        }
+        return array_slice($result, 2);
     }
 
     /**
      * @param string $source
      * @return string
      */
-    public function normalise($source)
+    public function normalize(mixed $source): string
     {
         return rtrim($source, DIRECTORY_SEPARATOR);
     }
@@ -61,13 +49,13 @@ class FilesystemDriver implements Driver
     public function isLeaf($found): bool
     {
         $this->next = $this->detect . $found;
-        return !$this->filesystem->isDirectory($this->next);
+        return !is_dir($this->next);
     }
 
     /**
      * @return string
      */
-    public function getDataForFilter()
+    public function getDataForFilter(): string
     {
         return $this->next;
     }
@@ -75,17 +63,17 @@ class FilesystemDriver implements Driver
     /**
      * @return string
      */
-    public function next()
+    public function next(): string
     {
         return $this->next;
     }
 
     /**
-     *
+     * @return void
      */
     public function beforeSearch(): void
     {
-        FileFunctionalitiesContext::setFilesystem($this->filesystem);
+
     }
 
 }

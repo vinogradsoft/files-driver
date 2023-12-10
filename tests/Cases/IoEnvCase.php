@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Test\Cases;
 
-use Vinograd\SimpleFiles\FileFunctionalitiesContext;
 
 abstract class IoEnvCase extends FileSystemCase
 {
@@ -54,7 +53,6 @@ abstract class IoEnvCase extends FileSystemCase
 
     public function tearDown(): void
     {
-        FileFunctionalitiesContext::reset();
         $this->delete($this->outPath);
     }
 }
