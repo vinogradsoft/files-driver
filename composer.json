@@ -1,20 +1,26 @@
 {
   "name": "vinogradsoft/files-driver",
-  "description": "Драйвер для работы с локальной файловой системой",
+  "description": "Local file system driver for the vinogradsoft/scanner library. Allows you to traverse directories in the local file system.",
   "license": "MIT",
+  "keywords": [
+    "Vinograd Scanner",
+    "traverse directories",
+    "local file system",
+    "vinogradsoft/scanner"
+  ],
   "authors": [
     {
-      "name": "vinograd",
-      "email": "cmk.cmyk@mail.ru"
+      "name": "Grigor",
+      "email": "cmk.cmyk@mail.ru",
+      "role": "Founder and project lead"
     }
   ],
-  "version": "1.0.0",
+  "version": "2.0.0",
   "minimum-stability": "stable",
   "require": {
-    "php": ">=7.2",
-    "vinogradsoft/scanner": "^1.0.0",
-    "vinogradsoft/io-contract": "^1.0.0",
-    "vinogradsoft/simple-files": "^1.0.0"
+    "php": ">=8.0",
+    "vinogradsoft/scanner": "^2.0",
+    "vinogradsoft/io-contract": "^1.0"
   },
   "autoload": {
     "psr-4": {
@@ -29,7 +35,7 @@
     }
   },
   "require-dev": {
-    "phpunit/phpunit": "8.5.x-dev",
+    "phpunit/phpunit": "^9.6",
     "overtrue/phplint": "^2.0"
   },
   "repositories": [

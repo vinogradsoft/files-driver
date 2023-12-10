@@ -1,22 +1,19 @@
 <?php
+declare(strict_types=1);
 
 namespace Test;
 
-use Test\Cases\Dummy\DummyNodeFactory;
 use Test\Cases\Dummy\TestCaseProviderVisitor;
 use Test\Cases\StrategyCase;
 use Vinograd\FilesDriver\FilesystemDriver;
 use Vinograd\Scanner\AbstractTraversalStrategy;
 use Vinograd\Scanner\BreadthStrategy;
-use Vinograd\Scanner\NodeFactory;
 use Vinograd\Scanner\Scanner;
-use Vinograd\Scanner\SingleStrategy;
 
-class FilesystemDriveSingleSearchTest extends StrategyCase
+class FilesystemDriveTraverseTest extends StrategyCase
 {
     private $strategy;
     private $driver;
-    private $factory;
 
     private $leafCounter = 0;
     private $nodeCounter = 0;
@@ -28,8 +25,8 @@ class FilesystemDriveSingleSearchTest extends StrategyCase
     {
         parent::setUp();
         $this->visitor = new TestCaseProviderVisitor($this);
-        $this->strategy = new SingleStrategy();
-        $this->factory = new DummyNodeFactory();
+        $this->strategy = new BreadthStrategy();
+
         $this->driver = new FilesystemDriver();
         $this->createFilesystem([
             'directories' => [
@@ -56,15 +53,14 @@ class FilesystemDriveSingleSearchTest extends StrategyCase
     /**
      * @dataProvider getCase
      */
-    public function testSearch( $expectedFiles, $expectedDirectories)
+    public function testTraverse($expectedFiles, $expectedDirectories)
     {
         $scanner = new Scanner();
         $scanner->setStrategy($this->strategy);
         $scanner->setVisitor($this->visitor);
         $scanner->setDriver($this->driver);
-        $scanner->setNodeFactory($this->factory);
 
-        $scanner->search($this->outPath.'/childL');
+        $scanner->traverse($this->outPath);
 
         self::assertCount($this->leafCounter, $expectedFiles);
         self::assertCount($this->nodeCounter, $expectedDirectories);
@@ -80,10 +76,21 @@ class FilesystemDriveSingleSearchTest extends StrategyCase
             [//line1
                 [//files
                     'file1.txt',
-
+                    'file7.txt',
+                    'file6.txt',
+                    'file5.txt',
+                    'file4.txt',
+                    'file3.txt',
+                    'file2.txt',
                 ],
                 [//directories
+                    'childL',
                     'root',
+                    'child1',
+                    'child2',
+                    'child3',
+                    'child4',
+                    'child5',
                 ]
             ],
         ];
@@ -94,18 +101,18 @@ class FilesystemDriveSingleSearchTest extends StrategyCase
 
     }
 
-    public function scanCompleted(AbstractTraversalStrategy $scanStrategy, NodeFactory $factory, $detect): void
+    public function scanCompleted(AbstractTraversalStrategy $scanStrategy, $detect): void
     {
 
     }
 
-    public function visitLeaf(AbstractTraversalStrategy $scanStrategy, NodeFactory $factory, $detect, $found, $data = null): void
+    public function visitLeaf(AbstractTraversalStrategy $scanStrategy, $detect, $found, $data = null): void
     {
         $this->leafCounter++;
         $this->leafLog [] = $found;
     }
 
-    public function visitNode(AbstractTraversalStrategy $scanStrategy, NodeFactory $factory, $detect, $found, $data = null): void
+    public function visitNode(AbstractTraversalStrategy $scanStrategy, $detect, $found, $data = null): void
     {
         $this->nodeCounter++;
         $this->nodeLog[] = $found;
@@ -115,7 +122,6 @@ class FilesystemDriveSingleSearchTest extends StrategyCase
     {
         $this->strategy = null;
         $this->driver = null;
-        $this->factory = null;
 
         $this->leafCounter = 0;
         $this->nodeCounter = 0;
